@@ -8,15 +8,13 @@ css('./styles/base.css')
 document.addEventListener('DOMContentLoaded', function () {
 	const choo = require('choo')
 	const home = require('./pages/home')
-	const about = require('./pages/about')
 
 	const app = choo()
 
-	app.model(require('./models/home'))
+	app.model(require('./models/members'))
 
 	app.router([
-		['/', home],
-		['/page/about', about]
+		['/', home]
 	])
 
 	applyMiddleware(app, function () {

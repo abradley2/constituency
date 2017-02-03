@@ -5,18 +5,18 @@ const localConfig = require('../local')
 // middleware
 const session = require('./middleware/session')
 // routes
-const message = require('./routes/message')
+const members = require('./routes/members')
 
 const mw = merry.middleware
 const notFound = merry.notFound()
 const api = merry()
 
 api.router([
-	['/api/message', {
+	['/api/congress/members/:chamber', {
 		get: mw([
 			setupCtx,
 			session,
-			message.get
+			members.get
 		])
 	}],
 	['/404', function (req, res, ctx, done) {

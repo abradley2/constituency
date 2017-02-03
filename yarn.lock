@@ -921,11 +921,11 @@ commander@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.5.0.tgz#d777b6a4d847d423e5d475da864294ac1ff5aa9d"
 
-commander@2.6.0, commander@^2.3.0:
+commander@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.6.0.tgz#9df7e52fb2a0cb0fb89058ee80c3104225f37e1d"
 
-commander@^2.9.0:
+commander@^2.3.0, commander@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
@@ -3237,7 +3237,7 @@ lodash@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.0.tgz#55074982883381b6b7134b742a5900bbbdab6b09"
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.3.0, lodash@^4.5.1:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.5.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4864,6 +4864,10 @@ run-auto@^2.0.0:
   resolved "https://registry.yarnpkg.com/run-auto/-/run-auto-2.0.0.tgz#5f4353f58adbd6b74926489b4f259e1dad6a78d6"
   dependencies:
     dezalgo "^1.0.1"
+
+run-series@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/run-series/-/run-series-1.1.4.tgz#89a73ddc5e75c9ef8ab6320c0a1600d6a41179b9"
 
 rx-lite@^3.1.2:
   version "3.1.2"
