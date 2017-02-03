@@ -1,0 +1,4 @@
+node_modules/
+*.log
+*.bundle.*
+local.js

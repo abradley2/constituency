@@ -1,0 +1,60 @@
+{
+  "name": "lebron-boilerplate",
+  "version": "1.0.0",
+  "description": "boring as hell node, build on LeBroN",
+  "main": "index.js",
+  "dependencies": {
+    "choo": "^4.0.3",
+    "choo-log": "^3.0.0",
+    "cookie-signature": "^1.0.6",
+    "level": "^1.5.0",
+    "localforage": "^1.4.3",
+    "memdb": "^1.3.1",
+    "merry": "^4.1.0",
+    "node-static": "^0.7.9",
+    "run-auto": "^2.0.0",
+    "tachyons": "^4.6.2",
+    "uuid": "^3.0.1",
+    "xhr": "^2.3.3"
+  },
+  "devDependencies": {
+    "browserify": "^13.3.0",
+    "budo": "^9.4.5",
+    "concurrently": "^3.1.0",
+    "envify": "^4.0.0",
+    "nodemon": "^1.11.0",
+    "sheetify": "^6.0.1",
+    "sheetify-cssnext": "^1.0.7",
+    "tape": "^4.6.3",
+    "xo": "^0.17.1"
+  },
+  "scripts": {
+    "start-prod": "NODE_ENV=production browserify -t envify client/main.js -o public/main.bundle.js && node server",
+    "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --live --dir public -- -t envify\" \"nodemon server\"",
+    "test": "xo && tape test/**/*.spec.js"
+  },
+  "browserify": {
+    "transform": "sheetify/transform"
+  },
+  "sheetify/transform": {
+    "use": "sheetify-cssnext"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abradley2/tiny-node-stack-starter.git"
+  },
+  "author": "Tony Bradley",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/abradley2/tiny-node-stack-starter/issues"
+  },
+  "homepage": "https://github.com/abradley2/tiny-node-stack-starter#readme",
+  "xo": {
+    "envs": [
+      "node",
+      "commonjs",
+      "browser"
+    ],
+    "semicolon": false
+  }
+}
