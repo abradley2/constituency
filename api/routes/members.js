@@ -19,7 +19,13 @@ function checkCache(req, res, ctx, done) {
 		})
 		.on('error', done)
 		.on('end', function () {
-			done(null, members.length === 3)
+			const hit = members.length === 3
+			if (hit) {
+				ctx.log.info('MEMBERS_CACHE_HIT')
+			} else {
+				ctx.log.info('MEMBERS_CACHE_MISS')
+			}
+			done(null, hit)
 		})
 }
 
@@ -38,11 +44,12 @@ function cacheMembers(ctx, members) {
 		}
 		return op
 	})
+	ctx.log.debug('CATCHEING_MEMBERS')
 	ctx.db.batch(ops, function (err) {
 		if (err) {
 			return ctx.log.error(err, 'CACHE_MEMBERS_BATCH_ERROR')
 		}
-		return ctx.log.debug('CACHE_MEMBERS_BATCH_SUCCESS')
+		return ctx.log.info('CACHE_MEMBERS_BATCH_SUCCESS')
 	})
 }
 

@@ -1,14 +1,30 @@
 const html = require('choo/html')
+const _ = require('lodash/fp')
 const navbar = require('../elements/navbar')
 
 function houseMembers(state, prev, send) {
+	const filter = state.members.searchFilters.house
+
 	function fetchHouseMembers() {
 		send('members:fetchMembers', {chamber: 'house'})
+	}
+
+	function setHouseMembersFilter(e) {
+		send('members:setFilter', {chamber: 'house', value: e.target.value})
 	}
 
 	return html`<div onload=${fetchHouseMembers}>
 		${navbar()}
 		<div class='uk-container'>
+			<form class='uk-search uk-search-default'>
+				<span uk-search-icon></span>
+				<input
+					class='uk-search-input'
+					type='search'
+					value=${filter}
+					oninput=${setHouseMembersFilter}
+				/>
+			</form>
 			<table class='uk-table'>
 				<thead>
 					<tr>
@@ -16,13 +32,19 @@ function houseMembers(state, prev, send) {
 					</tr>
 				</thead>
 				<tbody>
-				${state.members.house.map(function (member) {
-					return html`<tr>
-						<td>
-							${member.first_name} ${member.last_name}
-						</td>
-					</tr>`
-				})}
+				${state.members.house
+					.filter(function (member) {
+						const fullName = member.first_name + member.middle_name + member.last_name
+						return fullName.toUpperCase().indexOf(filter.toUpperCase()) !== -1
+					})
+					.map(function (member) {
+						return html`<tr>
+							<td>
+								${member.first_name} ${member.last_name}
+							</td>
+						</tr>`
+					})
+				}
 				</tbody>
 			</table\>
 		</div>

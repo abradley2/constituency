@@ -5,11 +5,20 @@ module.exports = {
 	namespace: 'members',
 	state: {
 		house: [],
-		senate: []
+		senate: [],
+		searchFilters: {
+			house: '',
+			senate: ''
+		}
 	},
 	reducers: {
 		getMembers: function (state, data) {
 			return _.set(data.chamber, data.members, state)
+		},
+		setFilter: function (state, data) {
+			const filters = _.set(data.chamber, data.value, state.filters)
+
+			return _.set('searchFilters', filters, state)
 		}
 	},
 	effects: {

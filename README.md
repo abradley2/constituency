@@ -15,6 +15,8 @@ module.exports = {
 `npm install -g nodemon` (for development server)  
 `npm install` or `yarn install` (for local dependencies)  
 
+`redis-server` spin up a redis server
+
 ## Commands
 
 `npm run start-dev` (runs the app in development mode)  
