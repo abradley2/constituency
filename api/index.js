@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const merry = require('merry')
 const localConfig = require('../local')
+const leveldb = require('./db/leveldb')
 // middleware
 const session = require('./middleware/session')
 // routes
@@ -27,13 +28,14 @@ api.router([
 		return notFound(req, res, ctx, done)
 	}],
 	['/error', function (req, res, ctx, done) {
-		api.log.error('ERROR', arguments)
+		ctx.log.error('ERROR', arguments)
 		done(null, {error: 'something happened'})
 	}]
 ])
 
 function setupCtx(req, res, ctx, done) {
 	Object.assign(ctx, {
+		db: leveldb,
 		localConfig: localConfig,
 		log: api.log
 	})

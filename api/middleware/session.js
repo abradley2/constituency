@@ -14,11 +14,11 @@ function getSessionCookie(cookieString, cookieName) {
 
 function session(req, res, ctx, done) {
 	let cookieVal
-	if (req.headers.cookie && getSessionCookie(req.headers.cookie, 'LebronCookie')) {
-		cookieVal = getSessionCookie(req.headers.cookie, 'LebronCookie')
+	if (req.headers.cookie && getSessionCookie(req.headers.cookie, 'ConstituencySession')) {
+		cookieVal = getSessionCookie(req.headers.cookie, 'ConstituencySession')
 	} else {
 		cookieVal = cookie.sign(uuid.v1(), ctx.localConfig.serverSecret)
-		res.setHeader('Set-Cookie', 'LebronCookie=' + cookieVal)
+		res.setHeader('Set-Cookie', 'ConstituencySession=' + cookieVal)
 	}
 	ctx.sessionId = cookie.unsign(cookieVal, ctx.localConfig.serverSecret)
 	return done()

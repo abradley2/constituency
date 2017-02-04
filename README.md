@@ -1,10 +1,4 @@
-# LeBroN Example
-
-This is a kewl example of the Lebron stack built upon guidance from
-[this article](https://github.com/yoshuawuyts/tiny-guide-to-non-fancy-node).
-
-It is too fleshed out to be a boilerplate or a starter (making one of those is
-a TODO).
+# Constituency
 
 ## Setup
 
@@ -12,7 +6,9 @@ Create a local.js file at the root of this with the following:
 
 ```
 module.exports = {
-	serverSecret: 'PutYourSecretStringUsedToSignSecureCookiesHere'
+	serverSecret: 'SecretStringUsedToSignSecureCookiesHere',
+	proPublicaApiKey: 'YourProPublicaApiKeyHere',
+	congressSession: 114
 }
 ```
 

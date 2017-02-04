@@ -1,17 +1,10 @@
 const html = require('choo/html')
+const navbar = require('../elements/navbar')
 
-function home(state, prev, send) {
-	function fetchHouseMembers() {
-		send('members:fetchMembers', {chamber: 'house'})
-	}
-
+function home() {
 	return html`<div>
+		${navbar()}
 		<h3>Welcome to Constituency</h3>
-		<button
-			onclick=${fetchHouseMembers}
-		>
-			fetch house members
-		</button>
 	</div>`
 }
 

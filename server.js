@@ -1,5 +1,6 @@
 const http = require('http')
 const nodeStatic = require('node-static')
+const log = require('merry')().log
 const api = require('./api')
 
 // API handlers
@@ -13,6 +14,7 @@ const server = http.createServer(handleRequest)
 server.listen(3000)
 
 function handleRequest(req, res) {
+	log.debug(req.url, 'SERVER_REQUEST')
 	// allow cors in dev so requests can be made from budo
 	if (process.env.NODE_ENV === 'development') {
 		res.setHeader('Access-Control-Allow-Origin', '*')
