@@ -5,7 +5,7 @@ function navbar() {
 		<nav class='uk-navbar-center'>
 			<ul class='uk-navbar-nav'>
 				<li>
-					<a href='/'>Home</a>
+					<a href='/'>Constituency</a>
 				</li>
 				<li>
 					<a href='/page/house'>House</a>

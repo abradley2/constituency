@@ -16,12 +16,13 @@ function houseMembers(state, prev, send) {
 	return html`<div onload=${fetchHouseMembers}>
 		${navbar()}
 		<div class='uk-container'>
-			<form class='uk-search uk-search-default'>
-				<span uk-search-icon></span>
+			<form class='uk-search'>
+				<span class='fa fa-2x fa-search'></span>
 				<input
 					class='uk-search-input'
 					type='search'
 					value=${filter}
+					placeholder=''
 					oninput=${setHouseMembersFilter}
 				/>
 			</form>
