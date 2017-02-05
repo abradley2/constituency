@@ -36,6 +36,8 @@ function houseMembers(state, prev, send) {
 				<thead>
 					<tr>
 						<th>Member Name</th>
+						<th>State</th>
+						<th>Party</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,7 +49,13 @@ function houseMembers(state, prev, send) {
 					.map(function (member) {
 						return html`<tr>
 							<td>
-								${member.first_name} ${member.last_name}
+								${member.last_name}, ${member.first_name} 
+							</td>
+							<td>
+								${member.state}
+							</td>
+							<td>
+								${member.party}
 							</td>
 						</tr>`
 					})

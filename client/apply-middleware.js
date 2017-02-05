@@ -1,6 +1,9 @@
 const localforage = require('localforage')
 const run = require('run-auto')
 
+const previousStates = []
+const previousActions = []
+
 function applyMiddleware(app, done) {
 	run({
 		onStateChange: function (cb) {
@@ -63,6 +66,16 @@ function applyOnStateChange(app, done) {
 				done(err)
 			})
 		}, 500)
+	})
+	app.use({
+		onStateChange: function (state, data) {
+			previousStates.push(state)
+			previousActions.push(data)
+			if (previousActions.length > 50) {
+				previousActions.shift()
+				previousStates.shift()
+			}
+		}
 	})
 	done()
 }
