@@ -60,6 +60,7 @@
   },
   "homepage": "https://github.com/abradley2/tiny-node-stack-starter#readme",
   "xo": {
+    "globals": ["FB", "FBready"],
     "envs": [
       "node",
       "commonjs",
