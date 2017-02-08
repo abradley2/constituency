@@ -8,6 +8,8 @@ const redisClient = require('./db/redis')
 const session = require('./middleware/session')
 // routes
 const members = require('./routes/members')
+const memberVotes = require('./routes/member-votes')
+const memberBills = require('./routes/member-bills')
 
 const mw = merry.middleware
 const notFound = merry.notFound()
@@ -19,6 +21,20 @@ api.router([
 			setupCtx,
 			session,
 			members.get
+		])
+	}],
+	['/api/congress/members/membervotes/:memberId', {
+		get: mw([
+			setupCtx,
+			session,
+			memberVotes.get
+		])
+	}],
+	['/api/congress/membmers/memberbills/:memberId/:billType', {
+		get: mw([
+			setupCtx,
+			session,
+			memberBills.get
 		])
 	}],
 	['/404', function (req, res, ctx, done) {

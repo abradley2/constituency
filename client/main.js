@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const choo = require('choo')
 	const home = require('./pages/home')
 	const houseMembers = require('./pages/house-members')
+	const houseMemberProfile = require('./pages/house-member-profile')
 	const senateMembers = require('./pages/senate-members')
 
 	const app = choo()
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	app.router([
 		['/', home],
 		['/page/house', houseMembers],
+		['/page/house/member/:memberId', houseMemberProfile],
 		['/page/senate', senateMembers]
 	])
 

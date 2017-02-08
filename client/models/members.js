@@ -22,6 +22,20 @@ module.exports = {
 		}
 	},
 	effects: {
+		getMemberInfo: function (state, data, send, done) {
+			console.log('data = ', data)
+			const config = {
+				url: `/api/congress/members/membervotes/${data.memberId}`,
+				json: true,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+			xhr.get(config, function () {
+				console.log(arguments)
+				done(arguments)
+			})
+		},
 		fetchMembers: function (state, data, send, done) {
 			const config = {
 				url: `/api/congress/members/${data.chamber}`,

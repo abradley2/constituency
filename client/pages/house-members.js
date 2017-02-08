@@ -5,12 +5,6 @@ const navbar = require('../elements/navbar')
 function houseMembers(state, prev, send) {
 	const filter = state.members.searchFilters.house
 
-	FBready.then(function () {
-		FB.api('/19787529402/picture?width=480&height=480', function (res) {
-			console.log('res = ', res)
-		})
-	})
-
 	function fetchHouseMembers() {
 		send('members:fetchMembers', {chamber: 'house'})
 	}
@@ -49,7 +43,9 @@ function houseMembers(state, prev, send) {
 					.map(function (member) {
 						return html`<tr>
 							<td>
-								${member.last_name}, ${member.first_name} 
+								<a href='/page/house/member/${member.id}'>
+									${member.last_name}, ${member.first_name}
+								</a>
 							</td>
 							<td>
 								${member.state}
