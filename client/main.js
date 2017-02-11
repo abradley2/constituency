@@ -7,12 +7,13 @@ css('./styles/base.css')
 
 document.addEventListener('DOMContentLoaded', function () {
 	const choo = require('choo')
-	const home = require('./pages/home')
-	const houseMembers = require('./pages/house-members')
-	const houseMemberProfile = require('./pages/house-member-profile')
-	const senateMembers = require('./pages/senate-members')
 
 	const app = choo()
+
+	const home = require('./pages/home')(app)
+	const houseMembers = require('./pages/house-members')(app)
+	const houseMemberProfile = require('./pages/house-member-profile')(app)
+	const senateMembers = require('./pages/senate-members')(app)
 
 	app.model(require('./models/members'))
 

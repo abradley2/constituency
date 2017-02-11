@@ -2,7 +2,6 @@ const html = require('choo/html')
 const _ = require('lodash/fp')
 const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
-const states = require('../config/states')
 
 function houseMembers(state, prev, send) {
 	const filter = state.members.searchFilters.house
@@ -29,22 +28,18 @@ function houseMembers(state, prev, send) {
 				/>
 			</form>
 			${memberList({
+				chamber: 'house',
 				members: state.members.house
 					.filter(function (member) {
 						return (`${member.first_name + member.last_name}`)
-							.indexOf(filter) !== -1
-					})
-					.map(function (member) {
-						return {
-							party: `${member.party}`,
-							name: `${member.last_name}, ${member.first_name}`,
-							info: `${member.party}, ${states[member.state]}`,
-							link: `${member.url}`
-						}
+							.toUpperCase()
+							.indexOf(filter.toUpperCase()) !== -1
 					})
 			})}
 		</div>
 	</div>`
 }
 
-module.exports = houseMembers
+module.exports = function () {
+	return houseMembers
+}

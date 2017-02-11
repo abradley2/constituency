@@ -15,19 +15,21 @@ function getMemberVotesRequest(req, res, ctx, done) {
 	})
 }
 
-module.exports = {
-	get: function (req, res, ctx, done) {
-		let data
+function getMemberVotes(req, res, ctx, done) {
+	let data
 
-		series([
-			function (next) {
-				getMemberVotesRequest(req, res, ctx, function (err, _data) {
-					data = _data
-					next(err)
-				})
-			}
-		], function (err) {
-			done(err, data)
-		})
-	}
+	series([
+		function (next) {
+			getMemberVotesRequest(req, res, ctx, function (err, _data) {
+				data = _data
+				next(err)
+			})
+		}
+	], function (err) {
+		done(err, data)
+	})
+}
+
+module.exports = {
+	get: getMemberVotes
 }
