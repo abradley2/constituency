@@ -37,7 +37,8 @@ const houseMemberProfileModel = {
 				},
 				function (cb) {
 					xhr.get({
-						url: `/api/congress/membmers/memberpictures/${data.facebookId}`
+						url: `/api/congress/membmers/memberpictures/${data.facebookId}`,
+						json: true
 					}, function (err, resp, body) {
 						if (err) {
 							cb(err)
@@ -62,13 +63,8 @@ const houseMemberProfileModel = {
 
 function homeMemberProfile(state, prev, send) {
 	const memberId = state.location.params.memberId
-	const facebookId = _.find({id: memberId}, state.members.house).facebook_id
 	function getMemberInfo() {
-		const params = {
-			memberId: memberId,
-			facebookId: facebookId
-		}
-		send('houseMemberProfile:fetchMemberInfo', params)
+		send('houseMemberProfile:fetchMemberInfo', {memberId: memberId})
 	}
 
 	return html`<h3 onload=${getMemberInfo}>

@@ -11,7 +11,15 @@ function getMemberVotesRequest(req, res, ctx, done) {
 		}
 	}
 	request(payload, function (err, resp, body) {
-		return done(err, body)
+		if (err) {
+			return done(err)
+		}
+		try {
+			const data = JSON.parse(body)
+			return done(err, data.results[0])
+		} catch (err) {
+			done(err)
+		}
 	})
 }
 
@@ -26,6 +34,9 @@ function getMemberVotes(req, res, ctx, done) {
 			})
 		}
 	], function (err) {
+		if (err) {
+			return done(err)
+		}
 		done(err, data)
 	})
 }

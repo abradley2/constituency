@@ -7,8 +7,6 @@ function getMemberPicture(req, res, ctx, done) {
 	}
 
 	request(config, function (err, results) {
-		console.log('results = ', err, results)
-		ctx.log.debug(err, results, 'PICTURE RESULTS')
 		done(err, results)
 	})
 }
