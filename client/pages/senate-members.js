@@ -1,30 +1,49 @@
 const html = require('choo/html')
 const navbar = require('../elements/navbar')
+const memberList = require('../elements/member-list')
+const states = require('../config/states')
 
 function senateMembers(state, prev, send) {
+	const filter = state.members.searchFilters.senate
 	function fetchSenateMembers() {
 		send('members:fetchMembers', {chamber: 'senate'})
+	}
+
+	function setSenateMembersFilter(e) {
+		send('members:setFilter', {
+			chamber: 'senate',
+			value: e.target.value
+		})
 	}
 
 	return html`<div onload=${fetchSenateMembers}>
 		${navbar()}
 		<div class='uk-container'>
-			<table class='uk-table'>
-				<thead>
-					<tr>
-						<th>Member Name</th>
-					</tr>
-				</thead>
-				<tbody>
-				${state.members.senate.map(function (member) {
-					return html`<tr>
-						<td>
-							${member.first_name} ${member.last_name}
-						</td>
-					</tr>`
-				})}
-				</tbody>
-			</table\>
+			<form class='uk-search'>
+				<span class='fa fa-2x fa-search'></span>
+				<input
+					class='uk-search-input'
+					type='search'
+					value=${filter}
+					placeholder=''
+					oninput=${setSenateMembersFilter}
+				/>
+			</form>
+			${memberList({
+				members: state.members.senate
+					.filter(function (member) {
+						return (`${member.first_name + member.last_name}`)
+							.indexOf(filter) !== -1
+					})
+					.map(function (member) {
+						return {
+							party: `${member.party}`,
+							name: `${member.last_name}, ${member.first_name}`,
+							info: `${member.party}, ${states[member.state]}`,
+							link: `${member.url}`
+						}
+					})
+			})}
 		</div>
 	</div>`
 }

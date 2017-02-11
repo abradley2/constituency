@@ -1,18 +1,29 @@
 const localforage = require('localforage')
-const run = require('run-auto')
+const series = require('run-series')
 
 const previousStates = []
 const previousActions = []
 
 function applyMiddleware(app, done) {
-	run({
-		onStateChange: function (cb) {
+	let previousInitialState
+	series([
+		function (cb) {
 			applyOnStateChange(app, cb)
 		},
-		wrapInitialState: function (cb) {
-			applyWrapInitialState(app, cb)
+		function (cb) {
+			localforage.getItem('prevLocalstate', function (err, data) {
+				if (err) {
+					cb(err)
+				}
+				previousInitialState = data
+				cb()
+			})
+		},
+		function (cb) {
+			applyWrapInitialState(previousInitialState, app, cb)
 		}
-	}, function (err) {
+	], function (err) {
+		console.log('done applying middleware')
 		return done(err, app)
 	})
 }
@@ -23,26 +34,31 @@ if (inDev()) {
 	}
 }
 
-function applyWrapInitialState(app, done) {
+function applyWrapInitialState(previousInitialState, app, done) {
 	localforage.getItem('localState', function (err, data) {
 		if (err) {
 			return done(err)
 		}
 		app.use({
 			wrapInitialState: function (initialState) {
-				if (!data) {
+				// if the initial state has changed, do not preload it
+				if (
+					!data ||
+					JSON.stringify(previousInitialState) !== JSON.stringify(initialState)
+				) {
 					return initialState
 				}
 				const localState = JSON.parse(data)
-				Object.keys(initialState).forEach(function (stateKey) {
-					if (stateKey === 'location') {
-						return
-					}
-					initialState[stateKey] = Object.assign(
-						initialState[stateKey],
-						localState[stateKey]
-					)
-				})
+				Object.keys(initialState)
+					.filter(function (stateKey) {
+						return stateKey !== 'location'
+					})
+					.forEach(function (stateKey) {
+						initialState[stateKey] = Object.assign(
+							initialState[stateKey],
+							localState[stateKey]
+						)
+					})
 				return initialState
 			}
 		})
@@ -62,9 +78,7 @@ function applyOnStateChange(app, done) {
 					return {}
 				}, {})
 			}
-			localforage.setItem('localState', JSON.stringify(state), function (err) {
-				done(err)
-			})
+			localforage.setItem('localState', JSON.stringify(state))
 		}, 500)
 	})
 	app.use({
