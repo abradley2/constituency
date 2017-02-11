@@ -23,7 +23,6 @@ function applyMiddleware(app, done) {
 			applyWrapInitialState(previousInitialState, app, cb)
 		}
 	], function (err) {
-		console.log('done applying middleware')
 		return done(err, app)
 	})
 }
