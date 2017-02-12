@@ -13,10 +13,14 @@ const stateSelect = css`:host {
 
 }`
 
+const title = 'mt2 mb0 roboto i fw1 f1 tc'
+const subtitle = 'mt2 mb0 f6 fw4 ttu tracked tc'
+
 function home() {
-	return html`<div>
+	return html`<div class='center measure'>
+		<h1 class=${title}>Constituency</h1>
+		<h2 class=${subtitle}>A simple outline of congress</h2>
 		${navbar()}
-		<h3>Welcome to Constituency</h3>
 		<select class=${stateSelect}>
 			${Object.keys(states).map(function (stateKey) {
 				return html`<option>

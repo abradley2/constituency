@@ -2,9 +2,16 @@ const html = require('choo/html')
 const _ = require('lodash/fp')
 const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
+const textInput = require('../elements/text-input')
 
 function houseMembers(state, prev, send) {
 	const filter = state.members.searchFilters.house
+	const displayMembers = state.members.house
+		.filter(function (member) {
+			return (`${member.first_name + member.last_name}`)
+				.toUpperCase()
+				.indexOf(filter.toUpperCase()) !== -1
+		})
 
 	function fetchHouseMembers() {
 		send('members:fetchMembers', {chamber: 'house'})
@@ -16,25 +23,17 @@ function houseMembers(state, prev, send) {
 
 	return html`<div onload=${fetchHouseMembers}>
 		${navbar()}
-		<div class='uk-container'>
-			<form class='uk-search'>
-				<span class='fa fa-2x fa-search'></span>
-				<input
-					class='uk-search-input'
-					type='search'
-					value=${filter}
-					placeholder=''
-					oninput=${setHouseMembersFilter}
-				/>
-			</form>
+		<div>
+			<div class='measure center'>
+				${textInput({
+					oninput: setHouseMembersFilter,
+					value: filter,
+					placeholder: 'filter by name...'
+				})}
+			</div>
 			${memberList({
 				chamber: 'house',
-				members: state.members.house
-					.filter(function (member) {
-						return (`${member.first_name + member.last_name}`)
-							.toUpperCase()
-							.indexOf(filter.toUpperCase()) !== -1
-					})
+				members: displayMembers
 			})}
 		</div>
 	</div>`

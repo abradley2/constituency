@@ -1,9 +1,9 @@
 const html = require('choo/html')
 const states = require('../config/states')
 
-const list = 'list pl0 mt0 measure center'
+const list = 'list pl0 mt0 measure center overflow-y-auto'
 const listItem = 'flex items-center lh-copy pa3 ph0-l bb b--black-10'
-const listItemTitleGroup = 'pl3 flex-auto'
+const listItemTitleGroup = 'pl3 flex-auto link'
 const listItemTitle = 'f6 db black-70'
 const listItemLink = 'f6 link blue hover-dark-gray'
 

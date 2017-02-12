@@ -1,6 +1,5 @@
 const html = require('choo/html')
 const _ = require('lodash/fp')
-const series = require('run-series')
 const xhr = require('xhr')
 
 const houseMemberProfileModel = {
@@ -16,46 +15,15 @@ const houseMemberProfileModel = {
 	},
 	effects: {
 		fetchMemberInfo: function (state, data, send, done) {
-			let memberVotes
-			let memberPicture
-			series([
-				function (cb) {
-					const config = {
-						url: `/api/congress/members/membervotes/${data.memberId}`,
-						json: true,
-						headers: {
-							'Content-Type': 'application/json'
-						}
-					}
-					xhr.get(config, function (err, resp, body) {
-						if (err) {
-							return cb(err)
-						}
-						memberVotes = body
-						cb(err)
-					})
-				},
-				function (cb) {
-					xhr.get({
-						url: `/api/congress/membmers/memberpictures/${data.facebookId}`,
-						json: true
-					}, function (err, resp, body) {
-						if (err) {
-							cb(err)
-						}
-						memberPicture = body.memberPicture
-						cb(err)
-					})
-				}
-			], function (err) {
+			const config = {
+				url: `/api/congress/members/house/${data.memberId}`,
+				json: true
+			}
+			xhr.get(config, function (err, resp, body) {
 				if (err) {
-					done(err)
+					return done(err)
 				}
-				const params = {
-					memberVotes: memberVotes,
-					membmerPicture: memberPicture
-				}
-				send('houseMemberProfile:getMemberInfo', params)
+				return send('houseMemberProfile:getMemberInfo', body, done)
 			})
 		}
 	}

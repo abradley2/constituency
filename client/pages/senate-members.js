@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
+const textInput = require('../elements/text-input')
 
 function senateMembers(state, prev, send) {
 	const filter = state.members.searchFilters.senate
@@ -18,16 +19,13 @@ function senateMembers(state, prev, send) {
 	return html`<div onload=${fetchSenateMembers}>
 		${navbar()}
 		<div class='uk-container'>
-			<form class='uk-search'>
-				<span class='fa fa-2x fa-search'></span>
-				<input
-					class='uk-search-input'
-					type='search'
-					value=${filter}
-					placeholder=''
-					oninput=${setSenateMembersFilter}
-				/>
-			</form>
+			<div class='measure center'>
+				${textInput({
+					oninput: setSenateMembersFilter,
+					value: filter,
+					placeholder: 'filter by name...'
+				})}
+			</div>
 			${memberList({
 				chamber: 'senate',
 				members: state.members.senate
