@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const app = choo()
 
+	if (process.env.NODE_ENV === 'development') {
+		const log = require('choo-log')
+		app.use(log())
+	}
+
 	const home = require('./pages/home')(app)
 	const houseMembers = require('./pages/house-members')(app)
 	const houseMemberProfile = require('./pages/house-member-profile')(app)

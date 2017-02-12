@@ -22,7 +22,7 @@ function senateMembers(state, prev, send) {
 		send('members:fetchMembers', {chamber: 'senate'})
 	}
 
-	function setSenateMembersFilter(e) {
+	function setFilter(e) {
 		send('senateMembers:setFilter', {filter: e.target.value})
 	}
 
@@ -30,11 +30,13 @@ function senateMembers(state, prev, send) {
 		${navbar()}
 		<div>
 			<div class='measure center'>
-				${textInput({
-					oninput: setSenateMembersFilter,
-					value: filter,
-					placeholder: 'filter by name...'
-				})}
+				<div>
+					${textInput({
+						oninput: setFilter,
+						value: filter,
+						placeholder: 'filter by name...'
+					})}
+				</div>
 			</div>
 			${memberList({
 				chamber: 'senate',

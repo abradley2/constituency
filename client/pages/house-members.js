@@ -4,8 +4,20 @@ const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
 const textInput = require('../elements/text-input')
 
+const houseMembersModel = {
+	namespace: 'houseMembers',
+	state: {
+		filter: ''
+	},
+	reducers: {
+		setFilter: function (state, data) {
+			return _.set('filter', data.filter, state)
+		}
+	}
+}
+
 function houseMembers(state, prev, send) {
-	const filter = state.members.searchFilters.house
+	const filter = state.houseMembers.filter
 	const displayMembers = state.members.house
 		.filter(function (member) {
 			return (`${member.first_name + member.last_name}`)
@@ -17,8 +29,8 @@ function houseMembers(state, prev, send) {
 		send('members:fetchMembers', {chamber: 'house'})
 	}
 
-	function setHouseMembersFilter(e) {
-		send('members:setFilter', {chamber: 'house', value: e.target.value})
+	function setFilter(e) {
+		send('houseMembers:setFilter', {filter: e.target.value})
 	}
 
 	return html`<div onload=${fetchHouseMembers}>
@@ -26,7 +38,7 @@ function houseMembers(state, prev, send) {
 		<div>
 			<div class='measure center'>
 				${textInput({
-					oninput: setHouseMembersFilter,
+					oninput: setFilter,
 					value: filter,
 					placeholder: 'filter by name...'
 				})}
@@ -39,6 +51,7 @@ function houseMembers(state, prev, send) {
 	</div>`
 }
 
-module.exports = function () {
+module.exports = function (app) {
+	app.model(houseMembersModel)
 	return houseMembers
 }

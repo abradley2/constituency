@@ -8,9 +8,6 @@ function applyMiddleware(app, done) {
 	let previousInitialState
 	series([
 		function (cb) {
-			applyOnStateChange(app, cb)
-		},
-		function (cb) {
 			localforage.getItem('prevLocalstate', function (err, data) {
 				if (err) {
 					cb(err)
@@ -20,7 +17,13 @@ function applyMiddleware(app, done) {
 			})
 		},
 		function (cb) {
-			applyWrapInitialState(previousInitialState, app, cb)
+			onStateChange(app, cb)
+		},
+		function (cb) {
+			wrapEffects(app, cb)
+		},
+		function (cb) {
+			wrapInitialState(previousInitialState, app, cb)
 		}
 	], function (err) {
 		return done(err, app)
@@ -33,7 +36,7 @@ if (inDev()) {
 	}
 }
 
-function applyWrapInitialState(previousInitialState, app, done) {
+function wrapInitialState(previousInitialState, app, done) {
 	localforage.getItem('localState', function (err, data) {
 		if (err) {
 			return done(err)
@@ -65,7 +68,16 @@ function applyWrapInitialState(previousInitialState, app, done) {
 	})
 }
 
-function applyOnStateChange(app, done) {
+function wrapEffects(app, done) {
+	app.use({
+		wrapEffects: function (fn) {
+			return fn
+		}
+	})
+	done()
+}
+
+function onStateChange(app, done) {
 	app.use({
 		onStateChange: bottleNeck(function (state) {
 			// if not in dev, only cache opt-in parts of state
