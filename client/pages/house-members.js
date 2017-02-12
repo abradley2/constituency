@@ -1,5 +1,6 @@
 const html = require('choo/html')
 const _ = require('lodash/fp')
+const states = require('../config/states')
 const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
 const textInput = require('../elements/text-input')
@@ -20,7 +21,7 @@ function houseMembers(state, prev, send) {
 	const filter = state.houseMembers.filter
 	const displayMembers = state.members.house
 		.filter(function (member) {
-			return (`${member.first_name + member.last_name}`)
+			return (`${member.first_name + member.last_name + states[member.state]}`)
 				.toUpperCase()
 				.indexOf(filter.toUpperCase()) !== -1
 		})
@@ -40,7 +41,7 @@ function houseMembers(state, prev, send) {
 				${textInput({
 					oninput: setFilter,
 					value: filter,
-					placeholder: 'filter by name...'
+					placeholder: 'filter by name or state'
 				})}
 			</div>
 			${memberList({
