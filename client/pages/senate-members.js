@@ -1,24 +1,34 @@
 const html = require('choo/html')
+const _ = require('lodash/fp')
 const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
 const textInput = require('../elements/text-input')
 
+const senateMembersModel = {
+	namespace: 'senateMembers',
+	state: {
+		filter: ''
+	},
+	reducers: {
+		setFilter: function (state, data) {
+			return _.set('filter', data.filter, state)
+		}
+	}
+}
+
 function senateMembers(state, prev, send) {
-	const filter = state.members.searchFilters.senate
+	const filter = state.senateMembers.filter
 	function fetchSenateMembers() {
 		send('members:fetchMembers', {chamber: 'senate'})
 	}
 
 	function setSenateMembersFilter(e) {
-		send('members:setFilter', {
-			chamber: 'senate',
-			value: e.target.value
-		})
+		send('senateMembers:setFilter', {filter: e.target.value})
 	}
 
 	return html`<div onload=${fetchSenateMembers}>
 		${navbar()}
-		<div class='uk-container'>
+		<div>
 			<div class='measure center'>
 				${textInput({
 					oninput: setSenateMembersFilter,
@@ -39,6 +49,7 @@ function senateMembers(state, prev, send) {
 	</div>`
 }
 
-module.exports = function () {
+module.exports = function (app) {
+	app.model(senateMembersModel)
 	return senateMembers
 }
