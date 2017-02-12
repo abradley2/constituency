@@ -1,46 +1,10 @@
-const request = require('request')
-const series = require('run-series')
-
-function getMemberVotesRequest(req, res, ctx, done) {
-	const memberId = ctx.params.memberId
-	const payload = {
-		url: `https://api.propublica.org/congress/v1/members/${memberId}/votes.json`,
-		headers: {
-			'X-API-Key': ctx.localConfig.proPublicaApiKey,
-			'Content-Type': 'application/json'
-		}
-	}
-	request(payload, function (err, resp, body) {
-		if (err) {
-			return done(err)
-		}
-		try {
-			const data = JSON.parse(body)
-			return done(err, data.results[0])
-		} catch (err) {
-			done(err)
-		}
-	})
-}
-
-function getMemberVotes(req, res, ctx, done) {
-	let data
-
-	series([
-		function (next) {
-			getMemberVotesRequest(req, res, ctx, function (err, _data) {
-				data = _data
-				next(err)
-			})
-		}
-	], function (err) {
-		if (err) {
-			return done(err)
-		}
-		done(err, data)
-	})
-}
+const getVotesByMember = require('./data/votes-by-member')
 
 module.exports = {
-	get: getMemberVotes
+	get: function (req, res, ctx, done) {
+		const params = {memberId: ctx.params.memberId}
+		getVotesByMember(params, ctx, function (err, results) {
+			done(err, results)
+		})
+	}
 }

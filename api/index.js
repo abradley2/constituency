@@ -10,7 +10,6 @@ const session = require('./middleware/session')
 const members = require('./routes/members')
 const memberVotes = require('./routes/member-votes')
 const memberBills = require('./routes/member-bills')
-const memberPictures = require('./routes/member-pictures')
 
 const mw = merry.middleware
 const notFound = merry.notFound()
@@ -24,11 +23,11 @@ api.router([
 			members.get
 		])
 	}],
-	['/api/congress/membmers/memberpictures/:memberId', {
+	['/api/congress/members/:chamber/:memberId', {
 		get: mw([
 			setupCtx,
 			session,
-			memberPictures.get
+			members.getOne
 		])
 	}],
 	['/api/congress/members/membervotes/:memberId', {
