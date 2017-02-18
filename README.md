@@ -2,13 +2,13 @@
 
 ## Setup
 
-Create a local.js file at the root of this with the following:
+Create a local.js file at the root of this project with the following:
 
 ```
 module.exports = {
-	serverSecret: 'SecretStringUsedToSignSecureCookiesHere',
-	proPublicaApiKey: 'YourProPublicaApiKeyHere',
-	congressSession: 114
+	proPublicaApiKey: 'Put-Your-ProPublica-Api-Key-Here',
+	congressSession: 115,
+	redisPort: 6379 // this key is optional. It will default to 6379
 }
 ```
 
