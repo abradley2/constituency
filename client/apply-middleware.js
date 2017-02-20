@@ -12,7 +12,7 @@ function applyMiddleware(app, done) {
 				if (err) {
 					cb(err)
 				}
-				prevInitialState = data
+				prevInitialState = JSON.parse(data)
 				cb()
 			})
 		},
@@ -22,7 +22,7 @@ function applyMiddleware(app, done) {
 				if (err) {
 					cb(err)
 				}
-				localState = data
+				localState = JSON.parse(data)
 				cb()
 			})
 		},
