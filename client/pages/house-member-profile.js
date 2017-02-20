@@ -1,17 +1,8 @@
 const html = require('choo/html')
 const _ = require('lodash/fp')
-const css = require('sheetify')
 const xhr = require('xhr')
 const navbar = require('../elements/navbar')
 const profileCard = require('../elements/profile-card')
-
-const votesDisplay = css`:host {
-	position: absolute;
-	top: -400px;
-	height: 400px;
-	width: 300px;
-	background-color: blue;
-}`
 
 const houseMemberProfileModel = {
 	namespace: 'houseMemberProfile',
@@ -89,7 +80,6 @@ function homeMemberProfile(state, prev, send) {
 					Member
 				</h3>
 				<div class='relative'>
-					<div class=${votesDisplay}>
 					</div>
 					<div
 						onclick=${getMemberVotes}

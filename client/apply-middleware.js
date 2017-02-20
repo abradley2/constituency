@@ -1,22 +1,34 @@
 const localforage = require('localforage')
 const series = require('run-series')
+const deepEqual = require('deep-equal')
 
 function applyMiddleware(app, done) {
-	let previousInitialState
+	let prevInitialState
+	let localState
 	series([
-		// load localState
+		// load prevInitialState
 		function (cb) {
-			localforage.getItem('prevLocalstate', function (err, data) {
+			localforage.getItem('prevInitialState', function (err, data) {
 				if (err) {
 					cb(err)
 				}
-				previousInitialState = data
+				prevInitialState = data
 				cb()
 			})
 		},
-		// combine initialState with localState
+		// load localState
 		function (cb) {
-			wrapInitialState(previousInitialState, app, cb)
+			localforage.getItem('localState', function (err, data) {
+				if (err) {
+					cb(err)
+				}
+				localState = data
+				cb()
+			})
+		},
+		// conditionally combine localState with initialState
+		function (cb) {
+			wrapInitialState(prevInitialState, localState, app, cb)
 		},
 		// save localState as state changes
 		function (cb) {
@@ -29,38 +41,29 @@ function applyMiddleware(app, done) {
 
 window.$clearLocalState = function () {
 	localforage.setItem('localState', '{}')
+	localforage.setItem('prevInitialState', '{}')
 }
 
-function wrapInitialState(previousInitialState, app, done) {
-	localforage.getItem('localState', function (err, data) {
-		if (err) {
-			return done(err)
-		}
-		app.use({
-			wrapInitialState: function (initialState) {
-				// if the initial state has changed, do not preload it
-				if (
-					!data ||
-					JSON.stringify(previousInitialState) !== JSON.stringify(initialState)
-				) {
-					return initialState
-				}
-				const localState = JSON.parse(data)
-				Object.keys(initialState)
-					.filter(function (stateKey) {
-						return stateKey !== 'location'
-					})
-					.forEach(function (stateKey) {
-						initialState[stateKey] = Object.assign(
-							initialState[stateKey],
-							localState[stateKey]
-						)
-					})
-				return initialState
+function wrapInitialState(prevInitialState, localState, app, done) {
+	app.use({
+		wrapInitialState: function (state) {
+			localforage.setItem('prevInitialState', JSON.stringify(state))
+			// if the initial state has changed, do not preload it
+			if (!prevInitialState || !deepEqual(prevInitialState, state)) {
+				return state
 			}
-		})
-		done()
+			Object.keys(localState)
+				.filter(function (stateKey) {
+					return stateKey !== 'location'
+				})
+				.forEach(function (stateKey) {
+					state[stateKey] = localState[stateKey]
+				})
+
+			return state
+		}
 	})
+	done()
 }
 
 function onStateChange(app, done) {
