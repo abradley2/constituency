@@ -16,11 +16,13 @@ if (process.env.NODE_ENV === 'development') {
 const home = require('./pages/home')(app)
 const members = require('./pages/members')(app)
 const memberProfile = require('./pages/member-profile')(app)
+const memberVotes = require('./pages/member-votes')(app)
 
 app.router([
 	['/', home],
 	['/page/members/:chamber', members],
-	['/page/member/:memberId', memberProfile]
+	['/page/member/:memberId', memberProfile],
+	['/page/member/votes/:memberId', memberVotes]
 ])
 
 applyMiddleware(app, function () {

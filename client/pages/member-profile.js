@@ -7,10 +7,8 @@ const profileCard = require('../elements/profile-card')
 const memberProfileModel = {
 	namespace: 'memberProfile',
 	state: {
-		memberVotes: null,
 		memberInfo: null,
-		memberPicture: null,
-		activeTab: 0
+		memberPicture: null
 	},
 	reducers: {
 		getMemberInfo: function (state, data) {
@@ -18,28 +16,9 @@ const memberProfileModel = {
 				_.set('memberInfo', data.memberInfo),
 				_.set('memberPicture', data.memberPicture)
 			)(state)
-		},
-		getMemberVotes: function (state, data) {
-			return _.set('memberVotes', data.memberVotes, state)
-		},
-		setActiveTab: function (state, data) {
-			return _.set('activeTab', data.activeTab, state)
 		}
 	},
 	effects: {
-		fetchMemberVotes: function (state, data, send, done) {
-			const config = {
-				url: `/api/congress/members/membervotes/${data.memberId}`,
-				json: true
-			}
-			xhr.get(config, function (err, resp, body) {
-				if (err) {
-					return done(err)
-				}
-				const votes = body.votes
-				return send('memberProfile:getMemberVotes', {memberVotes: votes}, done)
-			})
-		},
 		fetchMemberInfo: function (state, data, send, done) {
 			const config = {
 				url: `/api/congress/member/${data.memberId}`,
@@ -64,10 +43,6 @@ function homeMemberProfile(state, prev, send) {
 		send('memberProfile:fetchMemberInfo', {memberId: memberId})
 	}
 
-	function getMemberVotes() {
-		send('memberProfile:fetchMemberVotes', {memberId: memberId})
-	}
-
 	if (prev && prev.location.params.memberId !== state.location.params.memberId) {
 		getMemberInfo()
 	}
@@ -82,12 +57,12 @@ function homeMemberProfile(state, prev, send) {
 				})}
 				<div class='relative'>
 					</div>
-					<div
-						onclick=${getMemberVotes}
+					<a
+						href='/page/member/votes/${memberId}'
 						class='pointer w4 tc link pa3 ba b--black-20'
 					>
 						Votes
-					</div>
+					</a>
 				</div>
 			</div>` :
 			null

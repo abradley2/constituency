@@ -50,7 +50,8 @@ function wrapInitialState(prevInitialState, localState, app, done) {
 			localforage.setItem('prevInitialState', JSON.stringify(state))
 			// if the initial state has changed, do not preload it
 			if (!prevInitialState || !deepEqual(prevInitialState, state)) {
-				window.$clearLocalState()
+				localforage.setItem('localState', JSON.stringify(state))
+				localforage.setItem('prevInitialState', JSON.stringify(state))
 				return state
 			}
 			Object.keys(localState)
