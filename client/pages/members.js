@@ -89,7 +89,6 @@ function houseMembers(state, prev, send) {
 				})}
 			</div>
 			${memberList({
-				chamber: 'house',
 				members: displayMembers
 			})}
 		</div>

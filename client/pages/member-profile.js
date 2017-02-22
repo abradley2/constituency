@@ -4,8 +4,8 @@ const xhr = require('xhr')
 const navbar = require('../elements/navbar')
 const profileCard = require('../elements/profile-card')
 
-const houseMemberProfileModel = {
-	namespace: 'houseMemberProfile',
+const memberProfileModel = {
+	namespace: 'memberProfile',
 	state: {
 		memberVotes: null,
 		memberInfo: null,
@@ -37,19 +37,19 @@ const houseMemberProfileModel = {
 					return done(err)
 				}
 				const votes = body.votes
-				return send('houseMemberProfile:getMemberVotes', {memberVotes: votes}, done)
+				return send('memberProfile:getMemberVotes', {memberVotes: votes}, done)
 			})
 		},
 		fetchMemberInfo: function (state, data, send, done) {
 			const config = {
-				url: `/api/congress/members/house/${data.memberId}`,
+				url: `/api/congress/member/${data.memberId}`,
 				json: true
 			}
 			xhr.get(config, function (err, resp, body) {
 				if (err) {
 					return done(err)
 				}
-				return send('houseMemberProfile:getMemberInfo', body, done)
+				return send('memberProfile:getMemberInfo', body, done)
 			})
 		}
 	}
@@ -57,15 +57,19 @@ const houseMemberProfileModel = {
 
 function homeMemberProfile(state, prev, send) {
 	const memberId = state.location.params.memberId
-	const memberPicture = state.houseMemberProfile.memberPicture
-	const memberInfo = state.houseMemberProfile.memberInfo
+	const memberPicture = state.memberProfile.memberPicture
+	const memberInfo = state.memberProfile.memberInfo
 
 	function getMemberInfo() {
-		send('houseMemberProfile:fetchMemberInfo', {memberId: memberId})
+		send('memberProfile:fetchMemberInfo', {memberId: memberId})
 	}
 
 	function getMemberVotes() {
-		send('houseMemberProfile:fetchMemberVotes', {memberId: memberId})
+		send('memberProfile:fetchMemberVotes', {memberId: memberId})
+	}
+
+	if (prev && prev.location.params.memberId !== state.location.params.memberId) {
+		getMemberInfo()
 	}
 
 	return html`<div onload=${getMemberInfo}>
@@ -76,9 +80,6 @@ function homeMemberProfile(state, prev, send) {
 					image: memberPicture ? memberPicture.url : null,
 					member: memberInfo
 				})}
-				<h3 onload=${getMemberInfo}>
-					Member
-				</h3>
 				<div class='relative'>
 					</div>
 					<div
@@ -95,6 +96,6 @@ function homeMemberProfile(state, prev, send) {
 }
 
 module.exports = function (app) {
-	app.model(houseMemberProfileModel)
+	app.model(memberProfileModel)
 	return homeMemberProfile
 }

@@ -23,7 +23,7 @@ api.router([
 			members.get
 		])
 	}],
-	['/api/congress/members/:chamber/:memberId', {
+	['/api/congress/member/:memberId', {
 		get: mw([
 			setupCtx,
 			session,

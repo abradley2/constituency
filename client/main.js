@@ -15,20 +15,22 @@ if (process.env.NODE_ENV === 'development') {
 
 const home = require('./pages/home')(app)
 const members = require('./pages/members')(app)
-const houseMemberProfile = require('./pages/house-member-profile')(app)
+const memberProfile = require('./pages/member-profile')(app)
 
 app.router([
 	['/', home],
 	['/page/members/:chamber', members],
-	['/page/house/member/:memberId', houseMemberProfile]
+	['/page/member/:memberId', memberProfile]
 ])
 
 applyMiddleware(app, function () {
 	startApp(app)
 })
 
-// wrap xhr methods so they automatically use local server when hosted on budo
-;['post', 'put', 'patch', 'del', 'head', 'get'].forEach(function (method) {
+// wrap xhr methods so they automatically use local server when hosted on budo\
+const methods = ['post', 'put', 'patch', 'del', 'head', 'get']
+
+methods.forEach(function (method) {
 	xhr[method] = (function (send) {
 		return function (config, cb) {
 			if (process.env.NODE_ENV === 'development') {
