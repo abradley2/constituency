@@ -94,6 +94,7 @@ function getMembersRequest(params, ctx, done) {
 			cacheMembers(ctx, JSON.parse(body).results[0].members)
 		} catch (err) {
 			ctx.log.error('CACHE_ERROR', err)
+			return done(err)
 		}
 		try {
 			const results = JSON.parse(body).results[0]
