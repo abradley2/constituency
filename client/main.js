@@ -14,17 +14,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const home = require('./pages/home')(app)
-const houseMembers = require('./pages/house-members')(app)
+const members = require('./pages/members')(app)
 const houseMemberProfile = require('./pages/house-member-profile')(app)
-const senateMembers = require('./pages/senate-members')(app)
-
-app.model(require('./models/members'))
 
 app.router([
 	['/', home],
-	['/page/house', houseMembers],
-	['/page/house/member/:memberId', houseMemberProfile],
-	['/page/senate', senateMembers]
+	['/page/members/:chamber', members],
+	['/page/house/member/:memberId', houseMemberProfile]
 ])
 
 applyMiddleware(app, function () {

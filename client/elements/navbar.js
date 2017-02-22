@@ -6,8 +6,8 @@ function navbar() {
 	return html`<header class='bg-white black-80 tc mb4'>
 		<nav class='bt bb tc mw7 center mt4'>
 			<a class=${link} href='/'>Home</a>
-			<a class=${link} href='/page/house'>House of Representatives</a>
-			<a class=${link} href='/page/senate'>Senate</a>
+			<a class=${link} href='/page/members/house'>House of Representatives</a>
+			<a class=${link} href='/page/members/senate'>Senate</a>
 		</nav>
 </header>`
 }
