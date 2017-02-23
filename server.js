@@ -11,7 +11,7 @@ const file = new nodeStatic.Server('./public')
 
 const server = http.createServer(handleRequest)
 
-server.listen(3000)
+server.listen(process.env.NODE_ENV === 'production' ? 80 : 3000)
 
 function handleRequest(req, res) {
 	log.debug(req.url, 'SERVER_REQUEST')

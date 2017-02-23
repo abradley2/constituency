@@ -37,8 +37,8 @@
     "xo": "^0.17.1"
   },
   "scripts": {
-    "start-prod": "NODE_ENV=production browserify -t envify -g uglifyify client/main.js -o public/main.bundle.js && node server",
-    "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public -- -t envify\" \"nodemon server\"",
+    "start-prod": "export NODE_ENV=production && browserify -t envify -g uglifyify client/main.js -o public/main.bundle.js && node server",
+    "start-dev": "export NODE_ENV=development && concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public -- -t envify\" \"nodemon server\"",
     "test": "xo && tape test/**/*.spec.js"
   },
   "browserify": {
