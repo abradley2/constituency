@@ -3,7 +3,7 @@ const path = require('path')
 const merry = require('merry')
 const localConfig = require('../local')
 const leveldbClient = require('./db/leveldb')
-const redisClient = require('./db/redis')
+
 // middleware
 const session = require('./middleware/session')
 // routes
@@ -60,7 +60,6 @@ api.router([
 function setupCtx(req, res, ctx, done) {
 	Object.assign(ctx, {
 		db: leveldbClient,
-		rs: redisClient,
 		localConfig: localConfig,
 		log: api.log
 	})

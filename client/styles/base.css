@@ -1,11 +1,3 @@
-:root {
-	--color-success: rgb(28, 184, 65);
-	--color-error: rgb(202, 60, 60);
-	--color-warning: rgb(223, 117, 20);
-	--color-primary: #0078e7;
-	--color-secondary: rgb(66, 184, 221);
-}
-
 body {
 	padding: '15px';
 }
