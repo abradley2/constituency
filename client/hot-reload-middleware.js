@@ -2,7 +2,12 @@ const localforage = require('localforage')
 const series = require('run-series')
 const deepEqual = require('deep-equal')
 
-function applyMiddleware(app, done) {
+window.$clearLocalState = function () {
+	localforage.setItem('localState', '{}')
+	localforage.setItem('prevInitialState', '{}')
+}
+
+function hotReloadMiddleware(app, done) {
 	let prevInitialState
 	let localState
 	series([
@@ -35,13 +40,11 @@ function applyMiddleware(app, done) {
 			onStateChange(app, cb)
 		}
 	], function (err) {
-		return done(err, app)
+		if (err) {
+			window.$clearLocalState()
+		}
+		return done(err)
 	})
-}
-
-window.$clearLocalState = function () {
-	localforage.setItem('localState', '{}')
-	localforage.setItem('prevInitialState', '{}')
 }
 
 function wrapInitialState(prevInitialState, localState, app, done) {
@@ -92,4 +95,4 @@ function bottleNeck(func, time) {
 	return debounced
 }
 
-module.exports = applyMiddleware
+module.exports = hotReloadMiddleware
