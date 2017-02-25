@@ -1,6 +1,6 @@
 const html = require('choo/html')
-const _ = require('lodash/fp')
 const xhr = require('xhr')
+const i = require('icepick')
 const navbar = require('../elements/navbar')
 
 const memberVotesModel = {
@@ -10,7 +10,7 @@ const memberVotesModel = {
 	},
 	reducers: {
 		getMemberVotes: function (state, data) {
-			return _.set('votes', data.votes, state)
+			return i.set(state, 'votes', data.votes)
 		}
 	},
 	effects: {

@@ -1,6 +1,6 @@
 const html = require('choo/html')
-const _ = require('lodash/fp')
 const xhr = require('xhr')
+const i = require('icepick')
 const navbar = require('../elements/navbar')
 const profileCard = require('../elements/profile-card')
 
@@ -12,10 +12,16 @@ const memberProfileModel = {
 	},
 	reducers: {
 		getMemberInfo: function (state, data) {
-			return _.compose(
-				_.set('memberInfo', data.memberInfo),
-				_.set('memberPicture', data.memberPicture)
-			)(state)
+			const newState = i.assign(state, {
+				memberInfo: data.memberInfo,
+				memberPicture: data.memberPicture
+			})
+
+			if (state.memberInfo === data.memberInfo) {
+				throw new Error('ICEPICK DIDNT WORK')
+			}
+
+			return newState
 		}
 	},
 	effects: {

@@ -1,6 +1,6 @@
 const html = require('choo/html')
 const xhr = require('xhr')
-const _ = require('lodash/fp')
+const i = require('icepick')
 const states = require('../config/states')
 const navbar = require('../elements/navbar')
 const memberList = require('../elements/member-list')
@@ -20,14 +20,10 @@ const membersModel = {
 	},
 	reducers: {
 		getMembers: function (state, data) {
-			const editedChamber = _.set('members', data.members, state[data.chamber])
-
-			return _.set(data.chamber, editedChamber, state)
+			return i.setIn(state, [data.chamber, 'members'], data.members)
 		},
 		setFilter: function (state, data) {
-			const editedChamber = _.set('filter', data.filter, state[data.chamber])
-
-			return _.set(data.chamber, editedChamber, state)
+			return i.setIn(state, [data.chamber, 'filter'], data.filter)
 		}
 	},
 	effects: {
