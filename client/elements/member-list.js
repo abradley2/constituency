@@ -16,7 +16,7 @@ function memberList(props) {
 	return html`<ul class=${list}>
 		${props.members.map(function (member) {
 			const icon = partyMap[member.party] || 'green'
-			const link = '/page/member/' + member.id
+			const link = '/member/' + member.id
 			const params = {
 				name: `${member.last_name}, ${member.first_name}`,
 				info: `${member.party}, ${states[member.state]}`

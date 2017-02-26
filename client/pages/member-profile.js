@@ -64,7 +64,7 @@ function homeMemberProfile(state, prev, send) {
 				<div class='relative'>
 					</div>
 					<a
-						href='/page/member/votes/${memberId}'
+						href='/member/votes/${memberId}'
 						class='pointer w4 tc link pa3 ba b--black-20'
 					>
 						Votes

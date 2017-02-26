@@ -14,9 +14,9 @@ const memberVotes = require('./pages/member-votes')(app)
 
 app.router([
 	['/', home],
-	['/page/members/:chamber', members],
-	['/page/member/:memberId', memberProfile],
-	['/page/member/votes/:memberId', memberVotes]
+	['/members/:chamber', members],
+	['/member/:memberId', memberProfile],
+	['/member/votes/:memberId', memberVotes]
 ])
 
 function startApp(app) {
