@@ -64,6 +64,10 @@ function memberVotes(state, prev, send) {
 				.slice(0, state.memberVotes.showMore ? 100 : 15)
 				.map(function (vote) {
 					return html`<li class='mb5'>
+						<div>
+							<a class='link'>Full Vote</a>
+							<a class='ml-3 link'>Bill Details</a>
+						</div>
 						<span>${vote.bill.title}</span>
 					</li>`
 				})

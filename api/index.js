@@ -49,7 +49,7 @@ api.router([
 	}],
 	['/404', function (req, res, ctx, done) {
 		file.serve(req, res, function (err) {
-			if (err.status === 404) {
+			if (err && err.status === 404) {
 				return fs.createReadStream(path.join(__dirname, '../public/index.html'))
 					.pipe(res)
 			}
