@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 const merry = require('merry')
+const nodeStatic = require('node-static')
+
 const localConfig = require('../local')
 const leveldbClient = require('./db/leveldb')
 
@@ -11,6 +13,7 @@ const members = require('./routes/members')
 const memberVotes = require('./routes/member-votes')
 const memberBills = require('./routes/member-bills')
 
+const file = new nodeStatic.Server(path.join(__dirname, '../public'))
 const mw = merry.middleware
 const notFound = merry.notFound()
 const api = merry()
@@ -45,14 +48,16 @@ api.router([
 		])
 	}],
 	['/404', function (req, res, ctx, done) {
-		if (req.url.indexOf('/page') !== -1) {
-			return fs.createReadStream(path.join(__dirname, '../public/index.html'))
-				.pipe(res)
-		}
-		return notFound(req, res, ctx, done)
+		file.serve(req, res, function (err) {
+			if (err.status === 404) {
+				return fs.createReadStream(path.join(__dirname, '../public/index.html'))
+					.pipe(res)
+			}
+			return notFound(req, res, ctx, done)
+		})
 	}],
 	['/error', function (req, res, ctx, done) {
-		ctx.log.error({name: 'api/index'}, 'ERROR', arguments)
+		api.log.error({name: 'api/index'}, 'ERROR', arguments)
 		done(null, {error: 'something happened'})
 	}]
 ])

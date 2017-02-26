@@ -1,19 +1,12 @@
 const http = require('http')
-const nodeStatic = require('node-static')
+const log = require('merry')().log
 const api = require('./api')
 
-// API handlers
-const apiRequest = new RegExp(/^\/api\/.+$/)
-const pageRequest = new RegExp(/^\/page\/.+$/)
-
-const file = new nodeStatic.Server('./public')
+log.info({name: 'server'}, 'SERVER_ENV', process.env.NODE_ENV)
 
 const server = http.createServer(handleRequest)
 
-server.listen(3000)
-
 function handleRequest(req, res) {
-	// allow cors in dev so requests can be made from budo
 	if (process.env.NODE_ENV === 'development') {
 		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS')
@@ -27,12 +20,9 @@ function handleRequest(req, res) {
 		}
 	}
 
-	if (
-		apiRequest.test(req.url) ||
-		pageRequest.test(req.url)
-	) {
-		return api(req, res)
-	}
-
-	return file.serve(req, res)
+	return api(req, res)
 }
+
+server.listen(3000, function () {
+	log.info({name: 'server'}, 'SERVER_START', 'server running on port 3000')
+})
