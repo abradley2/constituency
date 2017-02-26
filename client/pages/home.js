@@ -9,9 +9,11 @@ const homeModel = {
 	}
 }
 
-const stateSelect = css`:host {
+const stateSelect = css`
+	:host {
 
-}`
+	}
+`
 
 const title = 'mt2 mb0 roboto i fw1 f1 tc'
 const subtitle = 'mt2 mb0 f6 fw4 ttu tracked tc'

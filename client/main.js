@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'development') {
 		startApp(app)
 	})
 
-	// wrap xhr methods so they automatically use local server
+	// In development, wrap xhr methods so they use the local server
 	const methods = ['post', 'put', 'patch', 'del', 'head', 'get']
 
 	methods.forEach(function (method) {

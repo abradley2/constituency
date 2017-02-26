@@ -1,8 +1,8 @@
 {
-  "name": "lebron-boilerplate",
+  "name": "constituency",
   "version": "1.0.0",
-  "description": "boring as hell node, build on LeBroN",
-  "main": "index.js",
+  "description": "An overview of Congress",
+  "main": "public/index.html",
   "dependencies": {
     "choo": "^4.0.3",
     "choo-log": "^3.0.0",
@@ -34,26 +34,27 @@
     "xo": "^0.17.1"
   },
   "scripts": {
-    "start-prod": "NODE_ENV=production concurrently \"browserify -t envify -g uglifyify client/main.js -o public/main.bundle.js\" \"node server\"",
-    "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public -- -t envify\" \"nodemon server\"",
-    "test": "xo && tape test/**/*.spec.js"
+    "start-prod": "NODE_ENV=production concurrently \"browserify -g uglifyify client/main.js -o public/main.bundle.js\" \"node server\"",
+    "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public\" \"nodemon server\"",
+    "test": "xo && NODE_ENV=test tape api/test/**/*.js && NODE_ENV=test budo test/main.js"
   },
   "browserify": {
     "transform": [
+      "envify",
       "sheetify/transform",
       "es2020"
     ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abradley2/tiny-node-stack-starter.git"
+    "url": "https://github.com/abradley2/constituency"
   },
   "author": "Tony Bradley",
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/abradley2/tiny-node-stack-starter/issues"
+    "url": "https://github.com/abradley2/constituency/issues"
   },
-  "homepage": "https://github.com/abradley2/tiny-node-stack-starter#readme",
+  "homepage": "https://github.com/abradley2/constituency#readme",
   "xo": {
     "envs": [
       "node",

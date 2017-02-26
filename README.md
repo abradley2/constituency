@@ -7,15 +7,13 @@ Create a local.js file at the root of this project with the following:
 ```
 module.exports = {
 	proPublicaApiKey: 'Put-Your-ProPublica-Api-Key-Here',
-	congressSession: 115,
-	redisPort: 6379 // this key is optional. It will default to 6379
+    serverSecret: 'secret_string_for_signing_session_cookies',
+	congressSession: 115
 }
 ```
 
 `npm install -g nodemon` (for development server)  
 `npm install` or `yarn install` (for local dependencies)  
-
-`redis-server` spin up a redis server
 
 ## Commands
 
