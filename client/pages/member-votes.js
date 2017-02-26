@@ -1,16 +1,29 @@
 const html = require('choo/html')
+const css = require('sheetify')
 const xhr = require('xhr')
 const i = require('icepick')
 const navbar = require('../elements/navbar')
 
+const container = css`
+	:host {
+		max-width: 700px;
+	}
+`
+
+const initialState = {
+	votes: [],
+	shoreMoreVotes: false
+}
+
 const memberVotesModel = {
 	namespace: 'memberVotes',
-	state: {
-		votes: []
-	},
+	state: initialState,
 	reducers: {
 		getMemberVotes: function (state, data) {
 			return i.set(state, 'votes', data.votes)
+		},
+		init: function (state) {
+			return i.assign(state, initialState)
 		}
 	},
 	effects: {
@@ -34,20 +47,28 @@ function memberVotes(state, prev, send) {
 	const memberId = state.location.params.memberId
 	const votes = state.memberVotes.votes
 
-	function getMemberVotes() {
-		return send('memberVotes:fetchMemberVotes', {memberId: memberId})
+	function init() {
+		send('memberVotes:init')
+		send('memberVotes:fetchMemberVotes', {memberId: memberId})
 	}
 
 	if (prev && prev.location.params.memberId !== state.location.params.memberId) {
-		getMemberVotes()
+		init()
 	}
 
-	return html`<div onload=${getMemberVotes}>
+	return html`<div class='center ${container}' onload=${init}>
 		${navbar()}
 		<h3>member votes</h3>
-		${votes.map(function () {
-			return html`<h3>Vote</h3>`
-		})}
+		<ul class='list'>
+			${votes
+				.slice(0, state.memberVotes.showMore ? 100 : 15)
+				.map(function (vote) {
+					return html`<li class='h3 mb2 overflow-hidden'>
+						<span>${vote.bill.title}</span>
+					</li>`
+				})
+			}
+		</ul>
 	</div>`
 }
 

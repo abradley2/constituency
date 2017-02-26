@@ -17,10 +17,6 @@ const memberProfileModel = {
 				memberPicture: data.memberPicture
 			})
 
-			if (state.memberInfo === data.memberInfo) {
-				throw new Error('ICEPICK DIDNT WORK')
-			}
-
 			return newState
 		}
 	},

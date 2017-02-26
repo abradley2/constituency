@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start-prod": "NODE_ENV=production concurrently \"browserify -g uglifyify client/main.js -o public/main.bundle.js\" \"node server\"",
-    "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public\" \"nodemon ./server.js | pino-colada\"",
+    "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public\" \"nodemon --ignore clinet/ ./server.js | pino-colada\"",
     "test": "xo && NODE_ENV=test tape api/test/**/*.js && NODE_ENV=test budo test/main.js"
   },
   "browserify": {

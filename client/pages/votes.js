@@ -9,14 +9,14 @@ const container = css`
 	}
 `
 
-function bills() {
+function votes() {
 	return html`<div>
 		${navbar()}
 		<div class='${container} center'>
-			<h3>Bills</h3>
+			<h3>Votes</h3>
 	</div>`
 }
 
 module.exports = function () {
-	return bills
+	return votes
 }
