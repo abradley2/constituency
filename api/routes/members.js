@@ -7,6 +7,9 @@ module.exports = {
 	get: function (req, res, ctx, done) {
 		const params = {chamber: ctx.params.chamber}
 		getMembersList(params, ctx, function (err, results) {
+			if (!err) {
+				ctx.log.info({name: 'routes/members'}, 'MEMBERS_RESPONSE_SUCCESS')
+			}
 			done(err, results)
 		})
 	},

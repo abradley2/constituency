@@ -52,7 +52,7 @@ api.router([
 		return notFound(req, res, ctx, done)
 	}],
 	['/error', function (req, res, ctx, done) {
-		ctx.log.error('ERROR', arguments)
+		ctx.log.error({name: 'api/index'}, 'ERROR', arguments)
 		done(null, {error: 'something happened'})
 	}]
 ])

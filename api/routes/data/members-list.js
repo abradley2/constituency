@@ -21,9 +21,9 @@ function checkCache(params, ctx, done) {
 		.on('end', function () {
 			const hit = members.length === 3
 			if (hit) {
-				ctx.log.info('MEMBERS_CACHE_HIT')
+				ctx.log.info({name: 'data/members-list'}, 'MEMBERS_CACHE_HIT')
 			} else {
-				ctx.log.info('MEMBERS_CACHE_MISS')
+				ctx.log.info({name: 'data/members-list'}, 'MEMBERS_CACHE_MISS')
 			}
 			done(null, hit)
 		})
@@ -47,9 +47,9 @@ function cacheMembers(ctx, members) {
 	ctx.log.debug('CATCHEING_MEMBERS')
 	ctx.db.batch(ops, function (err) {
 		if (err) {
-			return ctx.log.error(err, 'CACHE_MEMBERS_BATCH_ERROR')
+			return ctx.log.error({name: 'data/members-list'}, 'CACHE_MEMBERS_BATCH_ERROR', err)
 		}
-		return ctx.log.info('CACHE_MEMBERS_BATCH_SUCCESS')
+		return ctx.log.info({name: 'data/members-list'}, 'CACHE_MEMBERS_BATCH_SUCCESS')
 	})
 }
 
@@ -93,7 +93,7 @@ function getMembersRequest(params, ctx, done) {
 		try {
 			cacheMembers(ctx, JSON.parse(body).results[0].members)
 		} catch (err) {
-			ctx.log.error('CACHE_ERROR', err)
+			ctx.log.error({name: 'data/members-list'}, 'CACHE_ERROR', err)
 			return done(err)
 		}
 		try {
@@ -131,7 +131,7 @@ function membersList(params, ctx, done) {
 		}
 	], function (err) {
 		if (err) {
-			ctx.log.error(err, 'MEMBERS_REQUEST_ERROR')
+			ctx.log.error({name: 'data/members-list'}, err, 'MEMBERS_REQUEST_ERROR')
 		}
 		done(err, result)
 	})
