@@ -59,11 +59,11 @@ function memberVotes(state, prev, send) {
 	return html`<div class='center ${container}' onload=${init}>
 		${navbar()}
 		<h3>member votes</h3>
-		<ul class='list'>
+		<ul class='list pa2'>
 			${votes
 				.slice(0, state.memberVotes.showMore ? 100 : 15)
 				.map(function (vote) {
-					return html`<li class='h3 mb2 overflow-hidden'>
+					return html`<li class='mb5'>
 						<span>${vote.bill.title}</span>
 					</li>`
 				})
