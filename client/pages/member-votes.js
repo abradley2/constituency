@@ -81,7 +81,12 @@ function memberVotes(state, prev, send) {
 				.map(function (vote) {
 					return html`<li class='mb5'>
 						<div>
-							<a class='link' href='/votes/${vote.roll_call}'>Full Vote</a>
+							<a
+								class='link'
+								href='/vote/${vote.chamber}/${vote.session}/${vote.roll_call}'
+							>
+								Full Vote
+							</a>
 							<span class='ml2 mr2'>|</span>
 							<a class='ml-3 link' href='/bills/${vote.bill.id}'>Bill Details</a>
 						</div>

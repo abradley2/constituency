@@ -9,7 +9,7 @@ const app = choo()
 
 const home = require('./pages/home')(app)
 const bills = require('./pages/bills')(app)
-const votes = require('./pages/votes')(app)
+const votes = require('./pages/vote')(app)
 const members = require('./pages/members')(app)
 const memberProfile = require('./pages/member-profile')(app)
 const memberVotes = require('./pages/member-votes')(app)
@@ -17,7 +17,7 @@ const memberVotes = require('./pages/member-votes')(app)
 app.router([
 	['/', home],
 	['/bills', bills],
-	['/votes', votes],
+	['/vote/:chamber/:session/:rollCall', votes],
 	['/members/:chamber', members],
 	['/member/:memberId', memberProfile],
 	['/member/votes/:memberId', memberVotes]

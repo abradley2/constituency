@@ -2,13 +2,13 @@ const request = require('request')
 
 function votesRollCall(params, ctx, done) {
 	const baseUrl = 'https://api.propublica.org/congress/v1/'
-	const sessionNumber = params.sessionNumber
+	const session = params.session
 	const rollCall = params.rollCall
 	const chamber = params.chamber
 	const congressSession = ctx.localConfig.congressSession
 
 	const payload = {
-		url: `${baseUrl}${congressSession}/${chamber}/sessions/${sessionNumber}/votes/${rollCall}`,
+		url: `${baseUrl}${congressSession}/${chamber}/sessions/${session}/votes/${rollCall}`,
 		method: 'GET',
 		headers: {
 			'X-API-Key': ctx.localConfig.proPublicaApiKey,
@@ -21,8 +21,7 @@ function votesRollCall(params, ctx, done) {
 			return done(err)
 		}
 		try {
-			const data = JSON.parse(body)
-			return done(err, data)
+			return done(err, JSON.parse(body).results.votes)
 		} catch (err) {
 			done(err)
 		}
