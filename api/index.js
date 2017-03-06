@@ -9,6 +9,7 @@ const leveldbClient = require('./db/leveldb')
 // middleware
 const session = require('./middleware/session')
 // routes
+const votes = require('./routes/votes')
 const members = require('./routes/members')
 const memberVotes = require('./routes/member-votes')
 const memberBills = require('./routes/member-bills')
@@ -45,6 +46,13 @@ api.router([
 			setupCtx,
 			session,
 			memberBills.get
+		])
+	}],
+	['/api/votes/:chamber/:session/:rollCall', {
+		get: mw([
+			setupCtx,
+			session,
+			votes.getOne
 		])
 	}],
 	['/404', function (req, res, ctx, done) {
