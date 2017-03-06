@@ -26,6 +26,7 @@
     "concurrently": "^3.1.0",
     "envify": "^4.0.0",
     "es2020": "^1.1.9",
+    "hyperx": "^2.0.5",
     "nodemon": "^1.11.0",
     "pino-colada": "^1.0.3",
     "sheetify": "^6.0.1",
@@ -37,7 +38,7 @@
   "scripts": {
     "start-prod": "NODE_ENV=production concurrently \"browserify -g uglifyify client/main.js -o public/main.bundle.js\" \"node server\"",
     "start-dev": "NODE_ENV=development concurrently \"budo client/main.js:main.bundle.js --pushstate --live --dir public\" \"nodemon --ignore client/ ./server.js | pino-colada\"",
-    "test": "xo && NODE_ENV=test tape api/test/**/*.js && NODE_ENV=test budo test/main.js"
+    "test": "xo && NODE_ENV=test tape api/test/**/*.js && NODE_ENV=test budo ./client/test/main.js"
   },
   "browserify": {
     "transform": [

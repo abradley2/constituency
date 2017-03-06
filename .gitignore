@@ -1,6 +1,7 @@
-node_modules/
+node_modules
 *.log
 *.bundle.*
 local.js
 _leveldb
 dump.rdb
+main.bundle.js
